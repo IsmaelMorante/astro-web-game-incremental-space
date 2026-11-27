@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="titulo-asteroide">
+  <title id="titulo-asteroide">Asteroide poligonal facetado con vetas minerales brillantes</title>
+  <defs>
+    <filter id="resplandor-mineral" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fondo espacial -->
+  <rect width="256" height="256" fill="#080C18"/>
+  <g stroke="#263554" stroke-width="0.75" opacity="0.28">
+    <line x1="64" y1="0" x2="64" y2="256"/>
+    <line x1="128" y1="0" x2="128" y2="256"/>
+    <line x1="192" y1="0" x2="192" y2="256"/>
+    <line x1="0" y1="64" x2="256" y2="64"/>
+    <line x1="0" y1="128" x2="256" y2="128"/>
+    <line x1="0" y1="192" x2="256" y2="192"/>
+  </g>
+  <g fill="#94A3B8">
+    <circle cx="32" cy="38" r="1.2" opacity="0.65"/>
+    <circle cx="216" cy="46" r="1" opacity="0.55"/>
+    <circle cx="228" cy="186" r="1.3" opacity="0.65"/>
+    <circle cx="36" cy="192" r="1" opacity="0.5"/>
+    <circle cx="118" cy="24" r="1.1" opacity="0.45"/>
+  </g>
+
+  <!-- Fragmentos orbitando -->
+  <polygon points="44,82 54,76 58,88 46,92" fill="#6F5B43" stroke="#A88B68" stroke-width="1.2"/>
+  <polygon points="204,74 216,80 212,92 198,86" fill="#5A4A36" stroke="#A88B68" stroke-width="1.2"/>
+  <polygon points="198,176 208,184 200,194 190,186" fill="#6F5B43" stroke="#F59E0B" stroke-width="1"/>
+
+  <!-- Cuerpo principal del asteroide facetado -->
+  <g stroke-linejoin="round">
+    <!-- Contorno exterior -->
+    <polygon points="122,44 176,58 206,104 196,158 154,196 96,192 56,154 52,98 84,56" fill="#5C4B37" stroke="#A88B68" stroke-width="2.2"/>
+    <!-- Facetas iluminadas y en sombra -->
+    <polygon points="122,44 176,58 144,98 98,86" fill="#A88B68"/>
+    <polygon points="176,58 206,104 162,126 144,98" fill="#8D7456"/>
+    <polygon points="84,56 122,44 98,86 64,96" fill="#9A8060"/>
+    <polygon points="52,98 84,56 64,96 86,136 56,154" fill="#6E5B43"/>
+    <polygon points="98,86 144,98 134,144 86,136" fill="#7D674C"/>
+    <polygon points="144,98 162,126 196,158 154,196 134,144" fill="#504130"/>
+    <polygon points="162,126 206,104 196,158" fill="#433627"/>
+    <polygon points="86,136 134,144 154,196 96,192 56,154" fill="#46392A"/>
+    <!-- Líneas de arista -->
+    <polyline points="84,56 98,86 144,98 176,58" fill="none" stroke="#A88B68" stroke-width="1.2" opacity="0.8"/>
+    <polyline points="52,98 86,136 134,144 162,126 206,104" fill="none" stroke="#A88B68" stroke-width="1.2" opacity="0.7"/>
+    <line x1="134" y1="144" x2="154" y2="196" stroke="#A88B68" stroke-width="1.2" opacity="0.65"/>
+  </g>
+
+  <!-- Vetas minerales brillantes (hierro / cobalto / plasma) -->
+  <g filter="url(#resplandor-mineral)" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Veta principal dorada -->
+    <polyline points="104,70 116,96 142,102 152,132 182,146" stroke="#F59E0B" stroke-width="3.2"/>
+    <polyline points="104,70 116,96 142,102 152,132 182,146" stroke="#FBBF24" stroke-width="1.2"/>
+    <!-- Ramificación izquierda -->
+    <polyline points="116,96 94,122 72,134" stroke="#F59E0B" stroke-width="2.4"/>
+    <polyline points="116,96 94,122 72,134" stroke="#FBBF24" stroke-width="1"/>
+    <!-- Ramificación inferior -->
+    <polyline points="142,102 132,148 112,178" stroke="#F59E0B" stroke-width="2.2"/>
+    <!-- Acento de cobalto/plasma incrustado -->
+    <polyline points="154,78 164,96 184,104" stroke="#22D3EE" stroke-width="2"/>
+  </g>
+
+  <!-- Nodos cristalinos de mineral -->
+  <g filter="url(#resplandor-mineral)">
+    <polygon points="142,95 149,102 142,110 135,102" fill="#FBBF24" stroke="#F1F5F9" stroke-width="0.8"/>
+    <polygon points="94,116 99,122 94,128 89,122" fill="#F59E0B"/>
+    <polygon points="152,126 157,132 152,138 147,132" fill="#FBBF24"/>
+    <polygon points="164,92 168,96 164,100 160,96" fill="#22D3EE"/>
+  </g>
+
+  <!-- Leyenda táctica inferior -->
+  <rect x="14" y="222" width="228" height="22" rx="4" fill="#11182B" stroke="#263554" stroke-width="1"/>
+  <circle cx="28" cy="233" r="4" fill="#A88B68"/>
+  <text x="38" y="237" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" font-weight="600">Asteroide</text>
+  <circle cx="112" cy="233" r="4" fill="#F59E0B"/>
+  <text x="122" y="237" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5">Vetas de mineral</text>
+</svg>

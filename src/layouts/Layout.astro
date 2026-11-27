@@ -1,0 +1,32 @@
+---
+import '../styles/orbita-titan.css';
+
+interface Props {
+  readonly title: string;
+  readonly description?: string;
+}
+
+const {
+  title,
+  description = 'Juego incremental espacial con combate automático, fijación por puntero, 4 planetas, jefes y mejoras de nave.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Oxanium:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#030508] text-[#F8FAFC] antialiased selection:bg-[#00F0FF]/30 selection:text-[#F8FAFC]">
+    <slot />
+  </body>
+</html>

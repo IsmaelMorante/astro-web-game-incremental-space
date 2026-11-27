@@ -1,0 +1,225 @@
+---
+/**
+ * Componente SpaceCanvas (R2, R3, R4, R9, R10).
+ * Contiene el lienzo táctil Canvas 2D, el indicador de progreso hacia el jefe,
+ * el disparador de combate de jefe y la alerta de bodega llena.
+ */
+---
+
+<div class="space-canvas-wrapper">
+  <div class="canvas-top-bar">
+    <div class="boss-tracker" aria-live="polite">
+      <div class="boss-info-row">
+        <span class="boss-title">Objetivos para el jefe</span>
+        <span id="boss-progress-text" class="boss-count tabular-nums">0 / 25</span>
+      </div>
+      <div
+        class="boss-progress-track"
+        role="progressbar"
+        id="boss-progress-bar"
+        aria-label="Progreso hacia el jefe"
+        aria-valuemin="0"
+        aria-valuemax="25"
+        aria-valuenow="0"
+      >
+        <div id="boss-progress-fill" class="boss-progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      id="btn-challenge-boss"
+      class="btn-boss"
+      disabled
+      aria-label="Desafiar al jefe del planeta"
+    >
+      <span class="boss-btn-icon" aria-hidden="true">⚔</span>
+      <span id="boss-btn-label">Desafiar jefe</span>
+    </button>
+  </div>
+
+  <div class="canvas-viewport">
+    <canvas
+      id="space-canvas"
+      width="900"
+      height="600"
+      aria-label="Área táctica de combate espacial"
+      role="img"
+    ></canvas>
+
+    <div
+      id="canvas-cargo-alert"
+      class="canvas-cargo-alert hidden"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="alert-badge" aria-hidden="true">⚠</span>
+      <span>Bodega llena: vende el cargamento para seguir recogiendo recursos</span>
+    </div>
+  </div>
+
+  <p class="canvas-help-text">
+    Pulsa sobre un objetivo para fijarlo. Pulsa en el vacío para liberar el autoapuntado.
+  </p>
+</div>
+
+<style>
+  .space-canvas-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .canvas-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-tech);
+    border-radius: 8px;
+  }
+
+  .boss-tracker {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .boss-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.875rem;
+  }
+
+  .boss-title {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .boss-count {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .boss-progress-track {
+    width: 100%;
+    height: 8px;
+    background-color: var(--border-tech);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .boss-progress-fill {
+    height: 100%;
+    background-color: var(--color-boss);
+    transition: width 0.2s ease-out;
+  }
+
+  .btn-boss {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.5rem 1.25rem;
+    background-color: var(--color-boss);
+    color: #070b14;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+  }
+
+  .btn-boss:hover:not(:disabled) {
+    background-color: #f87171;
+    transform: translateY(-1px);
+  }
+
+  .btn-boss:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-boss:disabled {
+    background-color: #263554;
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+  }
+
+  .btn-boss.active-combat {
+    background-color: #b91c1c;
+    color: #ffffff;
+    cursor: default;
+  }
+
+  .canvas-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 900 / 600;
+    background-color: var(--bg-space);
+    border: 1px solid var(--border-tech);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  #space-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+  }
+
+  .canvas-cargo-alert {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background-color: rgba(17, 24, 43, 0.92);
+    border: 1px solid var(--color-alert);
+    border-radius: 6px;
+    color: var(--color-alert);
+    font-size: 0.875rem;
+    font-weight: 600;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  }
+
+  .canvas-cargo-alert.hidden {
+    display: none;
+  }
+
+  .alert-badge {
+    font-size: 1rem;
+  }
+
+  .canvas-help-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .canvas-top-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn-boss {
+      width: 100%;
+    }
+  }
+</style>

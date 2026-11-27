@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" aria-labelledby="titulo-maqueta">
+  <title id="titulo-maqueta">Maqueta completa de la pantalla de juego e interfaz HUD</title>
+  <defs>
+    <filter id="resplandor-hud" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fondo general de la aplicación -->
+  <rect width="960" height="540" fill="#080C18"/>
+
+  <!-- COLUMNA IZQUIERDA: LIENZO ESPACIAL (556 x 508) -->
+  <rect x="16" y="16" width="556" height="508" rx="10" fill="#080C18" stroke="#263554" stroke-width="1.5"/>
+
+  <!-- Cuadrícula táctica sutil del lienzo -->
+  <g stroke="#263554" stroke-width="0.7" opacity="0.22">
+    <line x1="155" y1="16" x2="155" y2="524"/>
+    <line x1="294" y1="16" x2="294" y2="524"/>
+    <line x1="433" y1="16" x2="433" y2="524"/>
+    <line x1="16" y1="143" x2="572" y2="143"/>
+    <line x1="16" y1="270" x2="572" y2="270"/>
+    <line x1="16" y1="397" x2="572" y2="397"/>
+  </g>
+  <g fill="#94A3B8">
+    <circle cx="72" cy="96" r="1.2" opacity="0.6"/>
+    <circle cx="496" cy="112" r="1.4" opacity="0.65"/>
+    <circle cx="118" cy="412" r="1" opacity="0.5"/>
+    <circle cx="468" cy="436" r="1.2" opacity="0.55"/>
+    <circle cx="212" cy="168" r="1.1" opacity="0.45"/>
+    <circle cx="386" cy="360" r="1.1" opacity="0.5"/>
+  </g>
+
+  <!-- Barra superior dentro del lienzo: planeta, progreso y botón Desafiar jefe -->
+  <rect x="28" y="28" width="286" height="34" rx="6" fill="#11182B" fill-opacity="0.92" stroke="#263554" stroke-width="1"/>
+  <circle cx="44" cy="45" r="5" fill="#38BDF8"/>
+  <text x="56" y="49" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="700">2. Órbita de Cobalto</text>
+  <text x="200" y="49" fill="#94A3B8" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="11">· 35 / 35 obj.</text>
+
+  <rect x="424" y="28" width="136" height="34" rx="6" fill="#EF4444" fill-opacity="0.2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="492" y="49" text-anchor="middle" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700">Desafiar jefe</text>
+
+  <!-- Línea de apuntado hacia el objetivo fijado -->
+  <line x1="294" y1="274" x2="430" y2="162" stroke="#FBBF24" stroke-width="1.3" stroke-dasharray="5 5" opacity="0.75"/>
+  <!-- Proyectil aliado hacia el objetivo fijado -->
+  <line x1="342" y1="234" x2="364" y2="216" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" filter="url(#resplandor-hud)"/>
+  <line x1="364" y1="194" x2="382" y2="184" stroke="#22D3EE" stroke-width="2.2" stroke-linecap="round" filter="url(#resplandor-hud)"/>
+
+  <!-- Nave del jugador en el centro del lienzo -->
+  <g transform="translate(294, 274)">
+    <circle cx="0" cy="0" r="34" fill="#22D3EE" fill-opacity="0.08" stroke="#22D3EE" stroke-width="1.4" filter="url(#resplandor-hud)"/>
+    <polygon points="0,-20 -18,12 -10,16 -4,8 4,8 10,16 18,12" fill="#11182B" stroke="#38BDF8" stroke-width="1.8" stroke-linejoin="round"/>
+    <polygon points="0,-24 -6,16 6,16" fill="#11182B" stroke="#38BDF8" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="0,-14 -3,-2 3,-2" fill="#22D3EE"/>
+  </g>
+
+  <!-- Dron de apoyo acompañando a la nave -->
+  <g transform="translate(344, 212)">
+    <polygon points="0,-9 8,0 4,8 -4,8 -8,0" fill="#11182B" stroke="#38BDF8" stroke-width="1.6" stroke-linejoin="round"/>
+    <circle cx="0" cy="-1" r="2.8" fill="#22D3EE" filter="url(#resplandor-hud)"/>
+  </g>
+
+  <!-- Asteroide 1 (arriba izquierda) -->
+  <g transform="translate(128, 152)">
+    <polygon points="-6,-26 18,-20 28,-2 22,20 0,28 -22,18 -26,-6 -16,-22" fill="#6E5B43" stroke="#A88B68" stroke-width="1.8" stroke-linejoin="round"/>
+    <polyline points="-10,-12 2,-2 14,8" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+    <polyline points="2,-2 -8,14" fill="none" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="-24" y="34" width="48" height="4" rx="2" fill="#11182B"/>
+    <rect x="-24" y="34" width="32" height="4" rx="2" fill="#A88B68"/>
+  </g>
+
+  <!-- Asteroide 2 (abajo izquierda) -->
+  <g transform="translate(132, 378)">
+    <polygon points="0,-24 22,-14 24,10 8,24 -16,20 -24,0 -14,-18" fill="#5C4B37" stroke="#A88B68" stroke-width="1.8" stroke-linejoin="round"/>
+    <polyline points="-10,-6 4,2 14,-8" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+    <rect x="-22" y="30" width="44" height="4" rx="2" fill="#11182B"/>
+    <rect x="-22" y="30" width="44" height="4" rx="2" fill="#A88B68"/>
+  </g>
+
+  <!-- Asteroide 3 (abajo derecha) -->
+  <g transform="translate(454, 388)">
+    <polygon points="-4,-22 18,-18 24,4 14,22 -12,22 -24,4 -16,-14" fill="#6E5B43" stroke="#A88B68" stroke-width="1.8" stroke-linejoin="round"/>
+    <polyline points="-8,-10 0,4 12,12" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+    <rect x="-22" y="28" width="44" height="4" rx="2" fill="#11182B"/>
+    <rect x="-22" y="28" width="24" height="4" rx="2" fill="#A88B68"/>
+  </g>
+
+  <!-- Enemigo 1 (fijado por puntero con retícula de fijación) -->
+  <g transform="translate(430, 162)">
+    <!-- Retícula de fijación -->
+    <circle cx="0" cy="0" r="32" fill="none" stroke="#FBBF24" stroke-width="1.6" stroke-dasharray="10 6" filter="url(#resplandor-hud)"/>
+    <line x1="-38" y1="0" x2="-26" y2="0" stroke="#FBBF24" stroke-width="1.8"/>
+    <line x1="26" y1="0" x2="38" y2="0" stroke="#FBBF24" stroke-width="1.8"/>
+    <line x1="0" y1="-38" x2="0" y2="-26" stroke="#FBBF24" stroke-width="1.8"/>
+    <line x1="0" y1="26" x2="0" y2="38" stroke="#FBBF24" stroke-width="1.8"/>
+    <!-- Nave enemiga -->
+    <polygon points="0,-20 18,4 10,20 0,12 -10,20 -18,4" fill="#11182B" stroke="#FB7185" stroke-width="1.8" stroke-linejoin="round"/>
+    <circle cx="0" cy="2" r="4.5" fill="#FBBF24"/>
+    <!-- Barra PV + etiqueta -->
+    <rect x="-24" y="42" width="48" height="4" rx="2" fill="#11182B"/>
+    <rect x="-24" y="42" width="22" height="4" rx="2" fill="#FB7185"/>
+    <text x="0" y="-44" text-anchor="middle" fill="#FBBF24" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="700">Objetivo fijado</text>
+  </g>
+
+  <!-- Enemigo 2 (centro-arriba) -->
+  <g transform="translate(262, 134)">
+    <polygon points="0,-16 14,4 8,16 0,10 -8,16 -14,4" fill="#11182B" stroke="#FB7185" stroke-width="1.6" stroke-linejoin="round"/>
+    <circle cx="0" cy="2" r="3.5" fill="#FB7185"/>
+    <rect x="-20" y="22" width="40" height="4" rx="2" fill="#11182B"/>
+    <rect x="-20" y="22" width="40" height="4" rx="2" fill="#FB7185"/>
+  </g>
+
+  <!-- Barra de estado inferior izquierda en el lienzo: Escudo y Casco -->
+  <rect x="28" y="452" width="218" height="60" rx="6" fill="#11182B" fill-opacity="0.92" stroke="#263554" stroke-width="1"/>
+  <text x="40" y="470" fill="#22D3EE" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" font-weight="700">Escudo</text>
+  <text x="234" y="470" text-anchor="end" fill="#F1F5F9" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="10.5">140 / 140</text>
+  <rect x="40" y="475" width="194" height="6" rx="3" fill="#080C18"/>
+  <rect x="40" y="475" width="194" height="6" rx="3" fill="#22D3EE"/>
+
+  <text x="40" y="496" fill="#38BDF8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" font-weight="700">Casco</text>
+  <text x="234" y="496" text-anchor="end" fill="#F1F5F9" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="10.5">205 / 205</text>
+  <rect x="40" y="501" width="194" height="6" rx="3" fill="#080C18"/>
+  <rect x="40" y="501" width="194" height="6" rx="3" fill="#38BDF8"/>
+
+  <!-- Indicación de control en esquina inferior derecha del lienzo -->
+  <rect x="348" y="484" width="212" height="28" rx="6" fill="#11182B" fill-opacity="0.92" stroke="#263554" stroke-width="1"/>
+  <text x="454" y="502" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5">Pulsa un objetivo para fijar disparo</text>
+
+  <!-- COLUMNA DERECHA: PANEL LATERAL DE CONTROL (356 x 508) -->
+  <rect x="588" y="16" width="356" height="508" rx="10" fill="#11182B" stroke="#263554" stroke-width="1.5"/>
+
+  <!-- Cabecera del panel: Créditos + Botón de silencio -->
+  <text x="604" y="38" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11">Créditos disponibles</text>
+  <text x="604" y="60" fill="#F1F5F9" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="20" font-weight="700">1.480 cr</text>
+
+  <rect x="832" y="30" width="96" height="32" rx="6" fill="#080C18" stroke="#263554" stroke-width="1.2"/>
+  <polygon points="845,42 849,42 854,37 854,53 849,48 845,48" fill="#F1F5F9"/>
+  <path d="M 857,41 A 5,5 0 0 1 857,49" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="866" y="50" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="600">Silenciar</text>
+
+  <!-- Tarjeta de Bodega + Vender todo -->
+  <rect x="604" y="74" width="324" height="58" rx="7" fill="#080C18" stroke="#263554" stroke-width="1.2"/>
+  <text x="614" y="92" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="700">Bodega: 15 / 15</text>
+  <rect x="720" y="80" width="84" height="16" rx="4" fill="#FBBF24" fill-opacity="0.18" stroke="#FBBF24" stroke-width="0.9"/>
+  <text x="762" y="91.5" text-anchor="middle" fill="#FBBF24" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9.5" font-weight="700">Bodega llena</text>
+  <rect x="614" y="100" width="190" height="7" rx="3.5" fill="#11182B"/>
+  <rect x="614" y="100" width="190" height="7" rx="3.5" fill="#FBBF24"/>
+  <text x="614" y="122" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5">Carga acumulada: 510 cr</text>
+
+  <rect x="818" y="84" width="98" height="38" rx="6" fill="#10B981"/>
+  <text x="867" y="107" text-anchor="middle" fill="#080C18" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="800">Vender todo</text>
+
+  <!-- Sección Mejoras: 5 mejoras lineales + Autoventa -->
+  <text x="604" y="151" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="700">MEJORAS DE LA NAVE</text>
+
+  <!-- Mejora 1: Daño de cañón -->
+  <rect x="604" y="159" width="324" height="34" rx="5" fill="#080C18" stroke="#263554" stroke-width="1"/>
+  <text x="614" y="174" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="600">Daño de cañón</text>
+  <text x="614" y="187" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9.8">Nv. 6 / 20 · 40 daño por disparo</text>
+  <rect x="854" y="164" width="66" height="24" rx="4" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="1.1"/>
+  <text x="887" y="180" text-anchor="middle" fill="#10B981" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="11" font-weight="700">175 cr</text>
+
+  <!-- Mejora 2: Cadencia -->
+  <rect x="604" y="197" width="324" height="34" rx="5" fill="#080C18" stroke="#263554" stroke-width="1"/>
+  <text x="614" y="212" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="600">Cadencia</text>
+  <text x="614" y="225" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9.8">Nv. 5 / 15 · 2,25 disparos/s</text>
+  <rect x="854" y="202" width="66" height="24" rx="4" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="1.1"/>
+  <text x="887" y="218" text-anchor="middle" fill="#10B981" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="11" font-weight="700">205 cr</text>
+
+  <!-- Mejora 3: Casco y Escudo -->
+  <rect x="604" y="235" width="324" height="34" rx="5" fill="#080C18" stroke="#263554" stroke-width="1"/>
+  <text x="614" y="250" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="600">Casco y Escudo</text>
+  <text x="614" y="263" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9.8">Nv. 5 / 15 · 205 casco / 140 escudo</text>
+  <rect x="854" y="240" width="66" height="24" rx="4" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="1.1"/>
+  <text x="887" y="256" text-anchor="middle" fill="#10B981" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="11" font-weight="700">185 cr</text>
+
+  <!-- Mejora 4: Capacidad de bodega -->
+  <rect x="604" y="273" width="324" height="34" rx="5" fill="#080C18" stroke="#263554" stroke-width="1"/>
+  <text x="614" y="288" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="600">Capacidad de bodega</text>
+  <text x="614" y="301" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9.8">Nv. 1 / 10 · 15 espacios</text>
+  <rect x="854" y="278" width="66" height="24" rx="4" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="1.1"/>
+  <text x="887" y="294" text-anchor="middle" fill="#10B981" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="11" font-weight="700">55 cr</text>
+
+  <!-- Mejora 5: Dron de apoyo -->
+  <rect x="604" y="311" width="324" height="34" rx="5" fill="#080C18" stroke="#263554" stroke-width="1"/>
+  <text x="614" y="326" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="600">Dron de apoyo</text>
+  <text x="614" y="339" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9.8">Nv. 2 / 10 · 24 daño a 1,0 disp/s</text>
+  <rect x="854" y="316" width="66" height="24" rx="4" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="1.1"/>
+  <text x="887" y="332" text-anchor="middle" fill="#10B981" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="11" font-weight="700">180 cr</text>
+
+  <!-- Mejora 6: Autoventa (Único) -->
+  <rect x="604" y="349" width="324" height="34" rx="5" fill="#080C18" stroke="#38BDF8" stroke-width="1.1"/>
+  <text x="614" y="364" fill="#38BDF8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="700">Autoventa (Único)</text>
+  <text x="614" y="377" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="9.5">Venta directa en créditos al instante</text>
+  <rect x="854" y="354" width="66" height="24" rx="4" fill="#10B981"/>
+  <text x="887" y="370" text-anchor="middle" fill="#080C18" font-family="ui-monospace, 'Cascadia Mono', monospace" font-size="11" font-weight="800">500 cr</text>
+
+  <!-- Selector de 4 planetas -->
+  <text x="604" y="401" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="700">SELECTOR DE PLANETAS</text>
+
+  <rect x="604" y="409" width="158" height="28" rx="5" fill="#080C18" stroke="#10B981" stroke-width="1.1"/>
+  <text x="683" y="427" text-anchor="middle" fill="#F1F5F9" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" font-weight="600">1. Cinturón de Hierro</text>
+
+  <rect x="770" y="409" width="158" height="28" rx="5" fill="#38BDF8" fill-opacity="0.18" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="849" y="427" text-anchor="middle" fill="#38BDF8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" font-weight="700">2. Órbita de Cobalto</text>
+
+  <rect x="604" y="443" width="158" height="28" rx="5" fill="#080C18" stroke="#263554" stroke-width="1" opacity="0.65"/>
+  <text x="683" y="461" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5">3. Nebulosa de Plasma</text>
+
+  <rect x="770" y="443" width="158" height="28" rx="5" fill="#080C18" stroke="#263554" stroke-width="1" opacity="0.65"/>
+  <text x="849" y="461" text-anchor="middle" fill="#94A3B8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5">4. Núcleo Estelar</text>
+
+  <!-- Botón Reiniciar partida -->
+  <rect x="604" y="483" width="324" height="30" rx="6" fill="#080C18" stroke="#FB7185" stroke-width="1.1"/>
+  <text x="766" y="502" text-anchor="middle" fill="#FB7185" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" font-weight="700">Reiniciar partida</text>
+</svg>

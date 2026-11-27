@@ -1,0 +1,525 @@
+---
+/**
+ * Componente ControlPanel (R4, R6, R7, R10, R11).
+ * Gestiona la bodega (venta manual y autoventa), las 6 mejoras de la nave,
+ * el selector de viaje interplanetario y el reinicio de partida.
+ */
+
+interface UpgradeMeta {
+  readonly key: string;
+  readonly name: string;
+  readonly description: string;
+  readonly maxLevel: number;
+}
+
+const UPGRADES: readonly UpgradeMeta[] = [
+  {
+    key: 'cannonDamage',
+    name: 'Daño de cañón',
+    description: '+5 de daño por disparo',
+    maxLevel: 20,
+  },
+  {
+    key: 'fireRate',
+    name: 'Cadencia',
+    description: '+0,25 disp/s',
+    maxLevel: 15,
+  },
+  {
+    key: 'hullShield',
+    name: 'Casco y Escudo',
+    description: '+25 casco, +20 escudo',
+    maxLevel: 15,
+  },
+  {
+    key: 'cargoCapacity',
+    name: 'Capacidad de bodega',
+    description: '+5 espacios de bodega',
+    maxLevel: 10,
+  },
+  {
+    key: 'supportDrone',
+    name: 'Dron de apoyo',
+    description: 'Nave escolta (1,0 disp/s)',
+    maxLevel: 10,
+  },
+  {
+    key: 'autoSell',
+    name: 'Autoventa',
+    description: 'Vende botín automáticamente',
+    maxLevel: 1,
+  },
+];
+
+const PLANETS = [
+  { id: 1, name: 'Cinturón de Hierro', boss: 'Perforadora Titán' },
+  { id: 2, name: 'Órbita de Cobalto', boss: 'Fragata Cobalto' },
+  { id: 3, name: 'Nebulosa de Plasma', boss: 'Crucero Nebular' },
+  { id: 4, name: 'Núcleo Estelar', boss: 'Guardián Solar' },
+];
+---
+
+<div class="control-panel">
+  <!-- SECCIÓN: BODEGA -->
+  <section class="panel-section" aria-labelledby="heading-cargo">
+    <div class="section-header">
+      <h2 id="heading-cargo" class="section-title">Bodega de carga</h2>
+      <span id="cargo-status-badge" class="badge-status">Manual</span>
+    </div>
+
+    <div class="cargo-details">
+      <div class="cargo-metric">
+        <span class="metric-label">Capacidad</span>
+        <span id="cargo-count" class="metric-value tabular-nums">0 / 10</span>
+      </div>
+      <div class="cargo-metric">
+        <span class="metric-label">Valor acumulado</span>
+        <span id="cargo-value" class="metric-value metric-amber tabular-nums">0 cr</span>
+      </div>
+    </div>
+
+    <div
+      id="panel-cargo-alert"
+      class="panel-alert hidden"
+      role="status"
+      aria-live="polite"
+    >
+      <span aria-hidden="true">⚠</span>
+      <span>Bodega llena</span>
+    </div>
+
+    <button
+      type="button"
+      id="btn-sell-cargo"
+      class="btn btn-action"
+      disabled
+      aria-label="Vender todo el cargamento de la bodega"
+    >
+      Vender todo
+    </button>
+  </section>
+
+  <!-- SECCIÓN: MEJORAS DE LA NAVE -->
+  <section class="panel-section" aria-labelledby="heading-upgrades">
+    <div class="section-header">
+      <h2 id="heading-upgrades" class="section-title">Mejoras de la nave</h2>
+    </div>
+
+    <div class="upgrades-list">
+      {
+        UPGRADES.map((upgrade) => (
+          <div class="upgrade-card" data-upgrade-card={upgrade.key}>
+            <div class="upgrade-info">
+              <div class="upgrade-title-row">
+                <span class="upgrade-name">{upgrade.name}</span>
+                <span
+                  id={`upgrade-level-${upgrade.key}`}
+                  class="upgrade-level tabular-nums"
+                >
+                  {upgrade.key === 'autoSell' ? 'Bloqueada' : `0 / ${upgrade.maxLevel}`}
+                </span>
+              </div>
+              <p class="upgrade-desc">{upgrade.description}</p>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-upgrade"
+              data-upgrade={upgrade.key}
+              id={`btn-upgrade-${upgrade.key}`}
+              disabled
+              aria-label={`Comprar mejora ${upgrade.name}`}
+            >
+              <span class="btn-text">Mejorar</span>
+              <span id={`upgrade-cost-${upgrade.key}`} class="upgrade-cost tabular-nums">
+                --
+              </span>
+            </button>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- SECCIÓN: PLANETAS -->
+  <section class="panel-section" aria-labelledby="heading-planets">
+    <div class="section-header">
+      <h2 id="heading-planets" class="section-title">Sistemas planetarios</h2>
+    </div>
+
+    <div class="planets-grid">
+      {
+        PLANETS.map((planet) => (
+          <button
+            type="button"
+            class="planet-card"
+            data-planet={planet.id}
+            id={`btn-planet-${planet.id}`}
+            disabled={planet.id > 1}
+            aria-label={`Viajar al planeta ${planet.id}: ${planet.name}`}
+          >
+            <div class="planet-card-header">
+              <span class="planet-number">{planet.id}</span>
+              <span class="planet-name">{planet.name}</span>
+            </div>
+            <div class="planet-card-footer">
+              <span id={`planet-status-${planet.id}`} class="planet-state">
+                {planet.id === 1 ? 'Actual' : 'Bloqueado'}
+              </span>
+            </div>
+          </button>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- SECCIÓN: REINICIO -->
+  <div class="panel-footer">
+    <button
+      type="button"
+      id="btn-reset-game"
+      class="btn btn-reset"
+      aria-label="Reiniciar la partida y borrar datos guardados"
+    >
+      Reiniciar partida
+    </button>
+  </div>
+</div>
+
+<style>
+  .control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .panel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-tech);
+    border-radius: 8px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .badge-status {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 4px;
+    background-color: var(--bg-space);
+    border: 1px solid var(--border-tech);
+    color: var(--text-secondary);
+  }
+
+  .badge-status.badge-active {
+    background-color: rgba(16, 185, 129, 0.15);
+    border-color: var(--color-action);
+    color: var(--color-action);
+  }
+
+  /* Bodega */
+  .cargo-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .cargo-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-space);
+    border: 1px solid var(--border-tech);
+    border-radius: 6px;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .metric-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .metric-amber {
+    color: var(--color-mineral);
+  }
+
+  .panel-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: rgba(251, 191, 36, 0.15);
+    border: 1px solid var(--color-alert);
+    border-radius: 6px;
+    color: var(--color-alert);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .panel-alert.hidden {
+    display: none;
+  }
+
+  /* Botones generales */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  }
+
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .btn-action {
+    background-color: var(--color-action);
+    color: #070b14;
+    font-weight: 700;
+  }
+
+  .btn-action:hover:not(:disabled) {
+    background-color: #34d399;
+  }
+
+  .btn-action:disabled {
+    background-color: var(--border-tech);
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  /* Mejoras */
+  .upgrades-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .upgrade-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    background-color: var(--bg-space);
+    border: 1px solid var(--border-tech);
+    border-radius: 6px;
+  }
+
+  .upgrade-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .upgrade-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .upgrade-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .upgrade-level {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-ship);
+  }
+
+  .upgrade-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .btn-upgrade {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    min-width: 90px;
+    min-height: 44px;
+    padding: 0.35rem 0.75rem;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--color-ship);
+    color: var(--text-primary);
+  }
+
+  .btn-upgrade:hover:not(:disabled) {
+    background-color: rgba(56, 189, 248, 0.15);
+  }
+
+  .btn-upgrade:disabled {
+    border-color: var(--border-tech);
+    background-color: var(--bg-space);
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .btn-upgrade.is-maxed {
+    border-color: var(--border-tech);
+    background-color: rgba(38, 53, 84, 0.4);
+    color: var(--text-secondary);
+    opacity: 0.7;
+    cursor: default;
+  }
+
+  .btn-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .upgrade-cost {
+    font-size: 0.75rem;
+    color: var(--color-mineral);
+    font-weight: 700;
+  }
+
+  .btn-upgrade:disabled .upgrade-cost,
+  .btn-upgrade.is-maxed .upgrade-cost {
+    color: var(--text-secondary);
+  }
+
+  /* Planetas */
+  .planets-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .planet-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-height: 52px;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-space);
+    border: 1px solid var(--border-tech);
+    border-radius: 6px;
+    text-align: left;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .planet-card:hover:not(:disabled):not(.is-current) {
+    border-color: var(--color-ship);
+    background-color: rgba(56, 189, 248, 0.1);
+  }
+
+  .planet-card.is-current {
+    border-color: var(--color-ship);
+    background-color: rgba(56, 189, 248, 0.15);
+  }
+
+  .planet-card:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .planet-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .planet-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--border-tech);
+    color: var(--text-primary);
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .planet-card.is-current .planet-number {
+    background-color: var(--color-ship);
+    color: #070b14;
+  }
+
+  .planet-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .planet-card-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .planet-state {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .planet-card.is-current .planet-state {
+    color: var(--color-ship);
+  }
+
+  /* Reinicio */
+  .panel-footer {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
+
+  .btn-reset {
+    width: 100%;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-tech);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .btn-reset:hover {
+    border-color: var(--color-boss);
+    color: var(--color-boss);
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+</style>
