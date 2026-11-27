@@ -6,6 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 /** @typedef {NonNullable<NonNullable<import('astro').AstroUserConfig['vite']>['plugins']>} VitePlugins */
 
 export default defineConfig({
+  site: 'https://IsmaelMorante.github.io',
+  base: '/astro-web-game-incremental-space',
   integrations: [react()],
   vite: {
     // @tailwindcss/vite@4.3.5 resolves vite@8 Plugin types while Astro 5 expects vite@6 PluginOption.
